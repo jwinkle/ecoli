@@ -51,8 +51,6 @@ void jcpBodyUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloa
 
     body_t *pBody =  (body_t *)cpBodyGetUserData(body);
 
-    //transfer the force for this step to be recorded:
-    pBody->parent->setData(body->f, body->v, pBody->which);
     cpAssertSoft(body->m > 0.0f && body->i > 0.0f, 
         "Body's mass and moment must be positive to simulate. (Mass: %f Moment: %f)", 
         body->m, body->i);
@@ -62,6 +60,7 @@ void jcpBodyUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloa
     body->v         = Fbym * (1.0/GAMMA_FLUID);
     body->w         = body->w*damping + body->t*body->i_inv*dt;
     
+    //transfer the force for this step to be recorded:
         pBody->parent->setData(body->f, body->v, pBody->which);
     // Reset forces.
     body->f = cpvzero;
